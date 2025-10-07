@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { imageUrl } from "../lib/api";
 
 const BlogCard = ({
   id,
@@ -14,7 +15,7 @@ const BlogCard = ({
     <div className="bg-[#111827] text-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-blue-500/30 transition-shadow duration-300 border border-gray-700">
       <Link to={`blog/${id}`}>
         <img
-          src={`http://localhost:3000/images/${image}`}
+          src={imageUrl(image)}
           alt={title}
           className="w-full h-56 object-cover cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
         />
@@ -25,9 +26,11 @@ const BlogCard = ({
           {category}
         </p>
 
-        <Link to={`blog/${id}`}><h2 className="text-xl font-semibold text-white mb-3 hover:text-blue-500 transition-colors">
-          {title}
-        </h2></Link>
+        <Link to={`blog/${id}`}>
+          <h2 className="text-xl font-semibold text-white mb-3 hover:text-blue-500 transition-colors">
+            {title}
+          </h2>
+        </Link>
 
         <div className="flex items-center gap-3 mt-4">
           <img

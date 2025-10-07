@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { StoreContext } from "../context/StoreContext";
+import api, { imageUrl } from "../lib/api";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("list");
@@ -33,7 +34,7 @@ const Dashboard = () => {
     data.append("image", formData.image);
 
     try {
-      const res = await axios.post("http://localhost:3000/blog/create", data, {
+      const res = await api.post("/blog/create", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -63,12 +64,9 @@ const Dashboard = () => {
 
   const removeBlog = async (blogId) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:3000/blog/delete/${blogId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await api.delete(`/blog/delete/${blogId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       toast.success(res.data.message);
       setBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
     } catch (error) {
@@ -184,7 +182,7 @@ const Dashboard = () => {
                       <td className="px-6 py-4">{blog.category}</td>
                       <td className="px-6 py-4">
                         <img
-                          src={`http://localhost:3000/images/${blog.image}`}
+                          src={imageUrl(blog.image)}
                           alt={blog.title}
                           className="h-16 w-16 object-cover rounded"
                         />
