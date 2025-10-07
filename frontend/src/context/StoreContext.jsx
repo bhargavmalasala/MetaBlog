@@ -1,46 +1,41 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import api, { imageUrl } from "../lib/api";
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = ({ children }) => {
-
-  const [user,setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [blogData, setBlogData] = useState([]);
-  useEffect( () => {
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  useEffect( () => {
+  useEffect(() => {
     const allBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/blog/all");
-        if (res.data.success) {
-          setBlogData(res.data.blogs);
-          
-        }
-      } catch (error) {
+        const res = await api.get("/blog/all");
+        if (res.data.success) setBlogData(res.data.blogs);
+      } catch {
         console.log("Error in all blogs api");
-        
       }
-    }
+    };
     allBlogs();
-  },[])
+  }, []);
 
   const loginUser = (user, token) => {
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
-  }
+  };
 
   const logoutUser = () => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-  }
+  };
 
   const contextValue = { blogData, user, loginUser, logoutUser };
 

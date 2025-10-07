@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../lib/api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -38,15 +38,7 @@ const Signup = () => {
       data.append("password", formData.password);
       data.append("image", formData.image);
       setloading(true);
-      const response = await axios.post(
-        "http://localhost:3000/user/register",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.post("/user/register", data);
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/login");
