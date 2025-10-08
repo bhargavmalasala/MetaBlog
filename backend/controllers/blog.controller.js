@@ -34,21 +34,40 @@ export const createBlog = async (req, res) => {
 };
 
 export const deleteBlog = async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
-  fs.unlink(`uploads/${blog.image}`, () => {});
-  if (!blog) {
-    return res.status(404).json({ message: "blog not found", success: false });
-  }
-  if (blog.author.id.toString() !== req.user.id.toString()) {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({ message: "blog not found", success: false });
+    }
+
+    // check auth
+    if (blog.author.id.toString() !== req.user.id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this blog", success: false });
+    }
+
+    // remove file (if exists)
+    const filePath = `uploads/${blog.image}`;
+    import('fs').then(fs => {
+      fs.unlink(filePath, (err) => {
+        // if err, just log it (do not block deletion)
+        if (err) console.warn("Failed to unlink file:", err);
+      });
+    });
+
+    await blog.deleteOne();
+
     return res
-      .status(403)
-      .json({ message: "Not authorized to delete this blog", success: false });
+      .status(200)
+      .json({ message: "blog deleted successfully", success: true });
+  } catch (error) {
+    console.error("Error in deleteBlog:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  await blog.deleteOne();  
-  return res
-    .status(404)
-    .json({ message: "blog deleted successfully", success: true });
 };
+
 
 export const singleBlog = async (req, res) => {
   try {
