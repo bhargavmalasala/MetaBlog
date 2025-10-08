@@ -1,9 +1,9 @@
-import React from "react";
 import BlogCard from "../components/BlogCard";
+import { useContext } from "react";
 import { StoreContext } from "../context/StoreContext.jsx";
 
 const Blogs = () => {
-  const { blogData } = React.useContext(StoreContext);
+  const { blogData } = useContext(StoreContext);
 
   return (
     <div className="bg-black text-white min-h-screen">
