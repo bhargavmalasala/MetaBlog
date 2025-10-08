@@ -13,7 +13,7 @@ const BlogCard = ({
 }) => {
   return (
     <div className="bg-[#111827] text-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-blue-500/30 transition-shadow duration-300 border border-gray-700">
-      <Link to={`blog/${id}`}>
+      <Link to={`/blog/${id}`}>
         <img
           src={imageUrl(image)}
           alt={title}
