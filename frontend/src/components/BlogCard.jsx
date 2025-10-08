@@ -26,7 +26,7 @@ const BlogCard = ({
           {category}
         </p>
 
-        <Link to={`blog/${id}`}>
+       <Link to={`/blog/${id}`}> 
           <h2 className="text-xl font-semibold text-white mb-3 hover:text-blue-500 transition-colors">
             {title}
           </h2>
@@ -34,7 +34,7 @@ const BlogCard = ({
 
         <div className="flex items-center gap-3 mt-4">
           <img
-            src={`http://localhost:3000/images/${author_image}`}
+            src={`${import.meta.env.VITE_API_BASE_URL}/images/${author_image}`}
             alt={author_name}
             className="w-10 h-10 rounded-full object-cover border border-gray-500"
           />
