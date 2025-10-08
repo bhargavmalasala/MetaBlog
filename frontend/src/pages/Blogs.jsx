@@ -26,7 +26,7 @@ const Blogs = () => {
             category={blog.category}
             author_name={blog.author.name}
             author_image={blog.author.image}
-            date={blog.date}
+            date={blog.createdAt}
           />
         ))}
       </div>
