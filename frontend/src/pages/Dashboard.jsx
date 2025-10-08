@@ -51,7 +51,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/blog/all", {
+        const res = await api.get("/blog/all", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setBlogs(res.data.blogs);
